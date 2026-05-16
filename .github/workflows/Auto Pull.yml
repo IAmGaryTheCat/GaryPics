@@ -8,21 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         include:
-          - server_id: 1
+          - host: ${{ secrets.SERVER_IP_1 }}
             user: twoblade
-          - server_id: 2
+
+          - host: ${{ secrets.SERVER_IP_2 }}
             user: gary
-    
+
     steps:
-    - name: Deploy via SSH
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets[format('SERVER_IP_{0}', matrix.server_id)] }}
-        username: ${{ matrix.user }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd ~/GaryPics
-          git pull
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ matrix.host }}
+          username: ${{ matrix.user }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/GaryPics
+            git pull
