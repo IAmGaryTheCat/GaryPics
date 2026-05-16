@@ -12,19 +12,20 @@ jobs:
     strategy:
       matrix:
         include:
-          - host: ${{ secrets.SERVER_IP_1 }}
+          - server_id: 1
             user: twoblade
 
-          - host: ${{ secrets.SERVER_IP_2 }}
+          - server_id: 2
             user: gary
 
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ matrix.host }}
+          host: ${{ matrix.server_id == 1 && secrets.SERVER_IP_1 || secrets.SERVER_IP_2 }}
           username: ${{ matrix.user }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
           script: |
             cd ~/GaryPics
-            git pull
+            git pull --ff-only
