@@ -14,9 +14,15 @@ jobs:
         include:
           - server_id: 1
             user: twoblade
+            dir: ~/GaryPics
 
           - server_id: 2
             user: gary
+            dir: ~/GaryPics
+
+          - server_id: 3
+            user: zach
+            dir: ~/documents/GaryPics
 
     steps:
       - name: Deploy via SSH
@@ -27,5 +33,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
           script: |
-            cd ~/GaryPics
+            cd ${{ matrix.dir }}
             git pull --ff-only
