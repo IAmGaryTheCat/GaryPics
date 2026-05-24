@@ -32,13 +32,6 @@ jobs:
           username: ${{ matrix.user }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
-          debug: true
           script: |
             cd ${{ matrix.dir }}
             git pull --ff-only
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/key
-            chmod 600 /tmp/key
-            ssh -vvv -i /tmp/key -o StrictHostKeyChecking=no zach@${{ secrets.SERVER_IP_3 }} "cd ~/documents/GaryPics && git pull --ff-only"
-            rm /tmp/key
-
-            
