@@ -32,6 +32,7 @@ jobs:
           username: ${{ matrix.user }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
+          debug: true
           script: |
             cd ${{ matrix.dir }}
             git pull --ff-only
