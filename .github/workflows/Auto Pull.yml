@@ -24,12 +24,12 @@ jobs:
             user: zach
             dir: ~/documents/GaryPics
 
- steps:
-  - name: Deploy via SSH
-    uses: appleboy/ssh-action@v1.0.3
-    with:
-      host: ${{ matrix.server_id == 1 && secrets.SERVER_IP_1 || matrix.server_id == 2 && secrets.SERVER_IP_2 || secrets.SERVER_IP_3 }}
-      username: ${{ matrix.user }}
-      key: ${{ secrets.SSH_PRIVATE_KEY }}
-      script_stop: ${{ matrix.server_id != 3 }}
-      script: ${{ matrix.server_id == 3 && format('cd {0}; git pull --ff-only', matrix.dir) || format('cd {0} && git pull --ff-only', matrix.dir) }}
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ matrix.server_id == 1 && secrets.SERVER_IP_1 || matrix.server_id == 2 && secrets.SERVER_IP_2 || secrets.SERVER_IP_3 }}
+          username: ${{ matrix.user }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: ${{ matrix.server_id != 3 }}
+          script: ${{ matrix.server_id == 3 && format('cd {0}; git pull --ff-only', matrix.dir) || format('cd {0} && git pull --ff-only', matrix.dir) }}
